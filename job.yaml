@@ -5,6 +5,7 @@ metadata:
   labels:
     jobgroup: peach-java
 spec:
+  backoffLimit: 0
   template:
     metadata:
       name: peach-java
@@ -14,5 +15,10 @@ spec:
       containers:
       - name: peach-java
         image: maven:3.5.3-jdk-8
-        command: "git clone https://github.com/dbolkensteyn/peachee-java-flat.git /peachee-java-flat && cd /peachee-java-flat/$(PROJECT) && ./checkout.sh && ./build.sh && ./analyze.sh"
-      restartPolicy: OnFailure
+        env:
+        - name: PROJECT
+          value: "$PROJECT"
+        command: ["sh", "-c"]
+        args:
+        - echo $(PROJECT)
+      restartPolicy: Never
