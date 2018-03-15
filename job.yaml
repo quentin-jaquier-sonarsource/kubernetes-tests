@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: peach-java
+  labels:
+    jobgroup: peach-java
+spec:
+  template:
+    metadata:
+      name: peach-java
+      labels:
+        jobgroup: peach-java
+    spec:
+      containers:
+      - name: peach-java
+        image: maven:3.5.3-jdk-8
+        command: "git clone https://github.com/dbolkensteyn/peachee-java-flat.git /peachee-java-flat && cd /peachee-java-flat/$(PROJECT) && ./checkout.sh && ./build.sh && ./analyze.sh"
+      restartPolicy: OnFailure
