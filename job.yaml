@@ -16,16 +16,18 @@ spec:
       - name: peach-java
         image: maven:3.5.3-jdk-8
         volumeMounts:
-        - mountPath: /peachee-flat-java
-          name: peachee-flat-java
+        - mountPath: /peachee-java-flat
+          name: peachee-java-flat
         env:
         - name: PROJECT
           value: "$PROJECT"
         command: ["sh", "-c"]
         args:
-        - ls -al /peachee-flat-java/*
+        - /peachee-java-flat/peachee-java-flat/sonarjava/checkout.sh &&
+          cd /project &&
+          /peachee-java-flat/peachee-java-flat/sonarjava/build.sh
       volumes:
-      - name: peachee-flat-java
+      - name: peachee-java-flat
         gitRepo:
           repository: "https://github.com/dbolkensteyn/peachee-java-flat.git"
       restartPolicy: Never
