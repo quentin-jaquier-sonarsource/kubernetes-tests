@@ -15,10 +15,17 @@ spec:
       containers:
       - name: peach-java
         image: maven:3.5.3-jdk-8
+        volumeMounts:
+        - mountPath: /peachee-flat-java
+          name: peachee-flat-java
         env:
         - name: PROJECT
           value: "$PROJECT"
         command: ["sh", "-c"]
         args:
-        - echo $(PROJECT)
+        - ls -al /peachee-flat-java/*
+      volumes:
+      - name: peachee-flat-java
+        gitRepo:
+          repository: "https://github.com/dbolkensteyn/peachee-java-flat.git"
       restartPolicy: Never
