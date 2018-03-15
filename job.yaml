@@ -20,12 +20,12 @@ spec:
           name: peachee-java-flat
         env:
         - name: PROJECT
-          value: "$PROJECT"
+          value: "sonarjava"
         command: ["sh", "-c"]
         args:
-        - /peachee-java-flat/peachee-java-flat/sonarjava/checkout.sh &&
+        - /peachee-java-flat/peachee-java-flat/$(PROJECT)/checkout.sh &&
           cd /project &&
-          /peachee-java-flat/peachee-java-flat/sonarjava/build.sh
+          /peachee-java-flat/peachee-java-flat/$(PROJECT)/build.sh
       volumes:
       - name: peachee-java-flat
         gitRepo:
