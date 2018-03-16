@@ -18,7 +18,7 @@ Run a specific expanded job:
 kubectl create -f ./jobs/job-[project].yaml
 ```
 
-List all pods:
+List all pods (including terminated ones):
 ```
 kubectl get pods --show-all
 ```
