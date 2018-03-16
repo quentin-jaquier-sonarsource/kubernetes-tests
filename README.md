@@ -23,6 +23,11 @@ List all pods (including terminated ones):
 kubectl get pods --show-all
 ```
 
+Get details about a specific pod:
+```
+kubectl describe pod [pod-name]
+```
+
 Stream the logs from a pod:
 ```
 kubectl logs -f [pod-name]
