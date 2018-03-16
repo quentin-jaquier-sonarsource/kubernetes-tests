@@ -21,11 +21,17 @@ spec:
         env:
         - name: PROJECT
           value: "sonarjava"
+        - name: SONAR_OPTS
+          valueFrom:
+            secretKeyRef:
+              name: sonar
+              key: opts
         command: ["sh", "-c"]
         args:
         - /peachee-java-flat/peachee-java-flat/$(PROJECT)/checkout.sh &&
           cd /project &&
-          /peachee-java-flat/peachee-java-flat/$(PROJECT)/build.sh
+          /peachee-java-flat/peachee-java-flat/$(PROJECT)/build.sh &&
+          /peachee-java-flat/peachee-java-flat/$(PROJECT)/analyze.sh
       volumes:
       - name: peachee-java-flat
         gitRepo:
