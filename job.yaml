@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: peach-java-%PROJECT%
+  name: peach-java-%PROJECT-NAME%
   labels:
     jobgroup: peach-java
 spec:
