@@ -3,7 +3,7 @@ Create a secret to hold the SonarQube/SonarCloud credentials:
 kubectl create secret generic sonar --from-literal="opts=-Dsonar.host.url=..."
 ```
 
-Generate the job expansions into the `jobs` folder:
+Generate the job expansions for all projects from `job.yaml` into the `jobs` folder:
 ```
 ./expand_jobs.sh
 ```
