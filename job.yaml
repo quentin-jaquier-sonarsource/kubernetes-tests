@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: peach-java
+  name: peach-java-$PROJECT
   labels:
     jobgroup: peach-java
 spec:
@@ -20,7 +20,7 @@ spec:
           name: peachee-java-flat
         env:
         - name: PROJECT
-          value: "sonarjava"
+          value: "$PROJECT"
         - name: SONAR_OPTS
           valueFrom:
             secretKeyRef:
