@@ -5,17 +5,17 @@ kubectl create secret generic sonar --from-literal="opts=-Dsonar.host.url=..."
 
 Generate the job expansions into the `jobs` folder:
 ```
-./generate_jobs.sh
+./expand_jobs.sh
 ```
 
-Run all the generated jobs:
+Run all the expanded jobs:
 ```
 kubectl create -f ./jobs
 ```
 
-Run a specific generated job:
+Run a specific expanded job:
 ```
-kubectl create -f ./jobs/job-project.yaml
+kubectl create -f ./jobs/job-[project].yaml
 ```
 
 List all pods:
@@ -38,7 +38,7 @@ List all nodes (managed by cluster-autoscaler):
 kubectl get nodes
 ```
 
-Delete all the jobs and their associated resources (pods, logs):
+Delete all expanded jobs and their associated resources (pods, logs):
 ```
 kubectl delete job --selector "jobgroup=peach-java"
 ```
