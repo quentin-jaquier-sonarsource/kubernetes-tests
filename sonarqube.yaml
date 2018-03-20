@@ -43,6 +43,11 @@ spec:
           requests:
             cpu: 0.51
             memory: "2G"
+        readinessProbe:
+          exec:
+            command: ["sh", "-c", "curl -s http://localhost:9000/api/system/status | grep \\\"status\\\":\\\"UP\\\""]
+          initialDelaySeconds: 30
+          periodSeconds: 5
 ---
 kind: Service
 apiVersion: v1
