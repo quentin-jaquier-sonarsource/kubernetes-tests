@@ -35,6 +35,10 @@ spec:
             secretKeyRef:
               name: sonarqube-jdbc
               key: url
+        resources:
+          requests:
+            cpu: 0.51
+            memory: "2G"
 ---
 kind: Service
 apiVersion: v1
