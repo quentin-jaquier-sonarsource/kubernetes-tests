@@ -7,7 +7,7 @@ kubectl create secret generic sonar --from-literal="opts=-Dsonar.host.url=..."
 
 Generate the job expansions for all projects from `job.yaml` into the `jobs` folder:
 ```
-./expand_jobs.sh
+./expand_jobs.sh job.yaml
 ```
 
 Run all the expanded jobs:
