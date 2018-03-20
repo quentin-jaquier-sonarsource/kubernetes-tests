@@ -67,3 +67,8 @@ Create the new service and deployment:
 ```
 kubectl create -f sonarqube.yaml
 ```
+
+Get the service external IP address (relaunch if pending):
+```
+kubectl get services
+```
