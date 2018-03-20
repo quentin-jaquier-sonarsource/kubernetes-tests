@@ -30,9 +30,9 @@ spec:
         args:
         - /peachee-java-flat/peachee-java-flat/$(PROJECT)/checkout.sh &&
           cd /project &&
-          /peachee-java-flat/peachee-java-flat/$(PROJECT)/build.sh &&
           mkdir /dump &&
-          /peachee-java-flat/peachee-java-flat/$(PROJECT)/analyze.sh
+          mvn clean package org.sonarsource.scanner.maven:sonar-maven-plugin:LATEST:sonar -B -e -DskipTests -Dsonar.projectKey="%PROJECT%" -Dsonar.projectName="%PROJECT%" $SONAR_OPTS &&
+          sleep 1800
         resources:
           requests:
             cpu: 0.51
