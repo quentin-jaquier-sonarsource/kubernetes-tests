@@ -56,3 +56,14 @@ Create a secret to hold the JDBC credentials:
 ```
 kubectl create secret generic sonarqube-jdbc --from-literal="user=postgres" --from-literal="pass=..." --from-literal="url=jdbc:postgresql://.../sonar"
 ```
+
+Delete the previous service and deployment:
+```
+kubectl delete service sonarqube-service
+kubectl delete deployment sonarqube-deployment
+```
+
+Create the new service and deployment:
+```
+kubectl create -f sonarqube.yml
+```
