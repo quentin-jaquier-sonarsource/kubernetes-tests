@@ -1,0 +1,63 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: sonarqube-deployment
+  labels:
+    app: sonarqube
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarqube
+  template:
+    metadata:
+      labels:
+        app: sonarqube
+    spec:
+      containers:
+      - name: sonarqube
+        image: sonarqube:6.7
+        ports:
+        - containerPort: 9000
+        env:
+        - name: SONARQUBE_JDBC_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: sonarqube-jdbc
+              key: user
+        - name: SONARQUBE_JDBC_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sonarqube-jdbc
+              key: pass
+        - name: SONARQUBE_JDBC_URL
+          valueFrom:
+            secretKeyRef:
+              name: sonarqube-jdbc
+              key: url
+        command: ["sh", "-c"]
+        args:
+        - echo "sonar.log.level=TRACE" >> $SONARQUBE_HOME/conf/sonar.properties &&
+          curl -s -L https://github.com/dbolkensteyn/sonar-java/releases/download/issue-collector-1/sonar-java-plugin-5.3.0-SNAPSHOT.jar -o $SONARQUBE_HOME/extensions/plugins/sonarjava.jar &&
+          $SONARQUBE_HOME/bin/run.sh
+        resources:
+          requests:
+            cpu: 0.51
+            memory: "2G"
+        readinessProbe:
+          exec:
+            command: ["sh", "-c", "curl -s http://localhost:9000/api/system/status | grep \\\"status\\\":\\\"UP\\\""]
+          initialDelaySeconds: 30
+          periodSeconds: 5
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: sonarqube-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: sonarqube
+  ports:
+  - protocol: TCP
+    port: 9000
