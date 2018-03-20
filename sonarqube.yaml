@@ -19,6 +19,22 @@ spec:
         image: sonarqube:6.7
         ports:
         - containerPort: 9000
+        env:
+        - name: SONARQUBE_JDBC_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: sonarqube-jdbc
+              key: user
+        - name: SONARQUBE_JDBC_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sonarqube-jdbc
+              key: pass
+        - name: SONARQUBE_JDBC_URL
+          valueFrom:
+            secretKeyRef:
+              name: sonarqube-jdbc
+              key: url
 ---
 kind: Service
 apiVersion: v1

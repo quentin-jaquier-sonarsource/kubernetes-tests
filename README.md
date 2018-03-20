@@ -1,3 +1,5 @@
+## Parallel jobs
+
 Create a secret to hold the SonarQube/SonarCloud credentials:
 ```
 kubectl create secret generic sonar --from-literal="opts=-Dsonar.host.url=..."
@@ -46,4 +48,11 @@ kubectl get nodes
 Delete all expanded jobs and their associated resources (pods, logs):
 ```
 kubectl delete job --selector "jobgroup=peach-java"
+```
+
+## SonarQube instance
+
+Create a secret to hold the JDBC credentials:
+```
+kubectl create secret generic sonarqube-jdbc --from-literal="user=postgres" --from-literal="pass=..." --from-literal="url=jdbc:postgresql://.../sonar"
 ```
