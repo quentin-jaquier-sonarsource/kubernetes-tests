@@ -72,3 +72,8 @@ Get the service external IP address (relaunch if pending):
 ```
 kubectl get services
 ```
+
+Scale the deployment up or down:
+```
+kubectl scale deployment sonarqube-deployment --replicas=3
+```
