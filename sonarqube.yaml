@@ -19,3 +19,15 @@ spec:
         image: sonarqube:6.7
         ports:
         - containerPort: 9000
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: sonarqube-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: sonarqube
+  ports:
+  - protocol: TCP
+    port: 9000
