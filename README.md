@@ -75,7 +75,7 @@ kubectl describe services sonarqube-service | grep "LoadBalancer Ingress"
 
 Scale the deployment up or down:
 ```
-kubectl scale deployment sonarqube-deployment --replicas=3
+kubectl scale deployment sonarqube-deployment --replicas=2
 ```
 
 Update the deployment's Docker image (unsupported by SonarQube, will prematurely terminate the old pods):
