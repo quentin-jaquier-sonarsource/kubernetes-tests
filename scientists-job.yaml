@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: peach-java-%PROJECT-NAME%
+  labels:
+    jobgroup: peach-java
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      name: peach-java
+      labels:
+        jobgroup: peach-java
+    spec:
+      containers:
+      - name: peach-java
+        image: maven:3.5.3-jdk-8
+        volumeMounts:
+        - mountPath: /peachee-java-flat
+          name: peachee-java-flat
+        env:
+        - name: PROJECT
+          value: "%PROJECT%"
+        - name: SONAR_OPTS
+          valueFrom:
+            secretKeyRef:
+              name: sonar
+              key: opts
+        command: ["sh", "-c"]
+        args:
+        - /peachee-java-flat/peachee-java-flat/$(PROJECT)/checkout.sh &&
+          cd /project &&
+          /peachee-java-flat/peachee-java-flat/$(PROJECT)/build.sh &&
+          mkdir /dump &&
+          /peachee-java-flat/peachee-java-flat/$(PROJECT)/analyze.sh
+        resources:
+          requests:
+            cpu: 0.51
+      volumes:
+      - name: peachee-java-flat
+        gitRepo:
+          repository: "https://github.com/dbolkensteyn/peachee-java-flat.git"
+      restartPolicy: Never
