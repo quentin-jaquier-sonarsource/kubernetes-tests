@@ -77,3 +77,13 @@ Scale the deployment up or down:
 ```
 kubectl scale deployment sonarqube-deployment --replicas=3
 ```
+
+Update the SonarQube Docker image (will kill former pods):
+```
+kubectl set image deployment/sonarqube-deployment sonarqube=sonarqube:6.7.1
+```
+
+View the status of the new image rollout:
+```
+kubectl rollout status deployment/sonarqube-deployment
+```
