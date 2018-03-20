@@ -65,5 +65,5 @@ kubectl delete deployment sonarqube-deployment
 
 Create the new service and deployment:
 ```
-kubectl create -f sonarqube.yml
+kubectl create -f sonarqube.yaml
 ```
