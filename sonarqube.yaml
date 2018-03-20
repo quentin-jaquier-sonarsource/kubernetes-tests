@@ -35,6 +35,10 @@ spec:
             secretKeyRef:
               name: sonarqube-jdbc
               key: url
+        command: ["sh", "-c"]
+        args:
+        - echo "sonar.log.level=TRACE" >> $SONARQUBE_HOME/conf/sonar.properties &&
+          $SONARQUBE_HOME/bin/run.sh
         resources:
           requests:
             cpu: 0.51
