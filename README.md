@@ -70,7 +70,7 @@ kubectl create -f sonarqube.yaml
 
 Get the service external IP address (relaunch if pending):
 ```
-kubectl get services
+kubectl describe services sonarqube-service | grep "LoadBalancer Ingress"
 ```
 
 Scale the deployment up or down:
