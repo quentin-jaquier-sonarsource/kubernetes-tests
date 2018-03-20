@@ -87,3 +87,8 @@ View the status of the new image rollout:
 ```
 kubectl rollout status deployment/sonarqube-deployment
 ```
+
+View all HTTP requests served by a given pod except for readiness probes:
+```
+kubectl logs -f [pod] | grep --line-buffered -F "serves" | grep -F -v "/api/system/status"
+```
