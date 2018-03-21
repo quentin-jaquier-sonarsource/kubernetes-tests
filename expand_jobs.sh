@@ -1,4 +1,9 @@
 #!/bin/sh
+if [ "$#" -ne 1 ]; then
+  echo "Expected exactly one argument: the name of the YAML job template"
+  exit 1
+fi
+
 REPO=peachee-java-flat
 JOBS=jobs
 JOB_NAME_MAX_LENGTH=50
