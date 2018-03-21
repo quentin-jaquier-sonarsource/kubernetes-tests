@@ -97,9 +97,19 @@ View all HTTP requests served by a given pod except for readiness probes:
 kubectl logs -f [pod] | grep --line-buffered -F "serves" | grep -F -v "/api/system/status"
 ```
 
-## Scientists jobs
+## Scientists job
 
 Create the secret Google Cloud Storage:
 ```
 kubectl create secret generic gcloud-storage --from-literal='token='`gcloud auth print-access-token`
+```
+
+Generate the job expansions for all projects from `scientists-job.yaml` into the `jobs` folder:
+```
+./expand_jobs.sh scientists-job.yaml
+```
+
+Run all the expanded jobs:
+```
+kubectl create -f ./jobs
 ```
