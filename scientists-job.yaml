@@ -26,13 +26,21 @@ spec:
             secretKeyRef:
               name: sonar
               key: opts
+        - name: GCLOUD_STORAGE_TOKEN # gcloud auth print-access-token
+          valueFrom:
+            secretKeyRef:
+              name: gcloud-storage
+              key: token
         command: ["sh", "-c"]
         args:
         - /peachee-java-flat/peachee-java-flat/$(PROJECT)/checkout.sh &&
           cd /project &&
           mkdir /dump &&
           mvn clean package org.sonarsource.scanner.maven:sonar-maven-plugin:LATEST:sonar -B -e -DskipTests -Dsonar.projectKey="%PROJECT%" -Dsonar.projectName="%PROJECT%" $SONAR_OPTS &&
-          sleep 1800
+          export dump_file=dump-$PROJECT.tar.gz &&
+          export colon_char=$'\x3A' &&
+          tar cjf $dump_file /dump &&
+          curl --upload-file "$dump_file" -H "Authorization$colon_char Bearer $GCLOUD_STORAGE_TOKEN" "https://storage.googleapis.com/scientists/issues/$dump_file"
         resources:
           requests:
             cpu: 0.51
