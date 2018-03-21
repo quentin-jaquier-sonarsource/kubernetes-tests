@@ -37,9 +37,10 @@ spec:
               key: url
         command: ["sh", "-c"]
         args:
-        - echo "sonar.log.level=TRACE" >> $SONARQUBE_HOME/conf/sonar.properties &&
-          curl -s -L https://github.com/dbolkensteyn/sonar-java/releases/download/issue-collector-2/sonar-java-plugin-5.3.0-SNAPSHOT.jar -o $SONARQUBE_HOME/extensions/plugins/sonarjava.jar &&
-          $SONARQUBE_HOME/bin/run.sh
+        - "echo sonar.log.level=TRACE >> $SONARQUBE_HOME/conf/sonar.properties &&
+           curl -s -L https://github.com/dbolkensteyn/sonar-java/releases/download/issue-collector-2/sonar-java-plugin-5.3.0-SNAPSHOT.jar -o $SONARQUBE_HOME/extensions/plugins/sonarjava.jar &&
+           $SONARQUBE_HOME/bin/run.sh
+          "
         resources:
           requests:
             cpu: 0.51

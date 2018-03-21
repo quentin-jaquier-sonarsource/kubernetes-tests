@@ -28,10 +28,11 @@ spec:
               key: opts
         command: ["sh", "-c"]
         args:
-        - /peachee-java-flat/peachee-java-flat/$(PROJECT)/checkout.sh &&
-          cd /project &&
-          /peachee-java-flat/peachee-java-flat/$(PROJECT)/build.sh &&
-          /peachee-java-flat/peachee-java-flat/$(PROJECT)/analyze.sh
+        - "/peachee-java-flat/peachee-java-flat/$(PROJECT)/checkout.sh &&
+           cd /project &&
+           /peachee-java-flat/peachee-java-flat/$(PROJECT)/build.sh &&
+           /peachee-java-flat/peachee-java-flat/$(PROJECT)/analyze.sh
+          "
         resources:
           requests:
             cpu: 0.51
