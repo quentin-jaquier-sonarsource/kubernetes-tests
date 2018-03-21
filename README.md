@@ -113,3 +113,5 @@ Run all the expanded jobs:
 ```
 kubectl create -f ./jobs
 ```
+
+See the parallel jobs section for further details.
