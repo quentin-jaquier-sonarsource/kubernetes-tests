@@ -57,10 +57,14 @@ Create a secret to hold the JDBC credentials:
 kubectl create secret generic sonarqube-jdbc --from-literal="user=postgres" --from-literal="pass=..." --from-literal="url=jdbc:postgresql://.../sonar"
 ```
 
-Delete the previous service and deployment:
+Delete the previous deployment:
+```
+kubectl delete deployment sonarqube-deployment
+```
+
+Delete the previous service, or leave it running to keep the external IP unchanged:
 ```
 kubectl delete service sonarqube-service
-kubectl delete deployment sonarqube-deployment
 ```
 
 Create the new service and deployment:
@@ -91,4 +95,11 @@ kubectl rollout status deployment/sonarqube-deployment
 View all HTTP requests served by a given pod except for readiness probes:
 ```
 kubectl logs -f [pod] | grep --line-buffered -F "serves" | grep -F -v "/api/system/status"
+```
+
+## Scientists jobs
+
+Create the secret Google Cloud Storage:
+```
+kubectl create secret generic gcloud-storage --from-literal='token='`gcloud auth print-access-token`
 ```
