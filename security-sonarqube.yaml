@@ -45,6 +45,7 @@ spec:
         - "echo sonar.log.level=TRACE >> $SONARQUBE_HOME/conf/sonar.properties &&
            curl -L -H \"Accept: application/octet-stream\" \"https://$GITHUB_TOKEN:@api.github.com/repos/SonarSource/sonar-security/releases/assets/6671654\" -o $SONARQUBE_HOME/extensions/plugins/sonar-java.jar &&
            curl -L -H \"Accept: application/octet-stream\" \"https://$GITHUB_TOKEN:@api.github.com/repos/SonarSource/sonar-security/releases/assets/6671469\" -o $SONARQUBE_HOME/extensions/plugins/sonar-security.jar &&
+           curl -L \"https://sonarsource.bintray.com/CommercialDistribution/sonar-license-plugin/sonar-license-plugin-3.3.0.1341.jar\" -o $SONARQUBE_HOME/extensions/plugins/sonar-license.jar &&
            $SONARQUBE_HOME/bin/run.sh
           "
         resources:
