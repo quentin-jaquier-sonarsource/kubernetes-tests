@@ -43,8 +43,8 @@ spec:
         command: ["sh", "-c"]
         args:
         - "echo sonar.log.level=TRACE >> $SONARQUBE_HOME/conf/sonar.properties &&
-           curl -L -H \"Accept: application/octet-stream\" \"https://$GITHUB_TOKEN:@api.github.com/repos/SonarSource/sonar-security/releases/assets/6584635\" -o $SONARQUBE_HOME/extensions/plugins/sonarsecurity.jar &&
-           curl -s -L https://sonarsource.bintray.com/Distribution/sonar-java-plugin/sonar-java-plugin-5.2.0.13398.jar -o $SONARQUBE_HOME/extensions/plugins/sonarjava.jar &&
+           curl -L -H \"Accept: application/octet-stream\" \"https://$GITHUB_TOKEN:@api.github.com/repos/SonarSource/sonar-security/releases/assets/6671654\" -o $SONARQUBE_HOME/extensions/plugins/sonar-java.jar &&
+           curl -L -H \"Accept: application/octet-stream\" \"https://$GITHUB_TOKEN:@api.github.com/repos/SonarSource/sonar-security/releases/assets/6671469\" -o $SONARQUBE_HOME/extensions/plugins/sonar-security.jar &&
            $SONARQUBE_HOME/bin/run.sh
           "
         resources:
