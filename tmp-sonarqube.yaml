@@ -1,0 +1,58 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: sonarqube-deployment
+  labels:
+    app: sonarqube
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarqube
+  template:
+    metadata:
+      labels:
+        app: sonarqube
+    spec:
+      containers:
+      - name: sonarqube
+        image: openjdk:8
+        ports:
+        - containerPort: 9000
+        command: ["sh", "-c"]
+        args:
+        - "curl -s -L https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.4.zip -o /sonarqube.zip &&
+           unzip /sonarqube.zip -d /opt &&
+           groupadd -r sonarqube &&
+           useradd -r -g sonarqube sonarqube &&
+           chown -R sonarqube:sonarqube /opt/sonarqube-7.4 &&
+           su -c \"/opt/sonarqube-7.4/bin/linux-x86-64/sonar.sh console\" sonarqube
+          "
+        resources:
+          requests:
+            cpu: 20.0
+            memory: "360G"
+        readinessProbe:
+          exec:
+            command: ["sh", "-c", "curl -s http://localhost:9000/api/system/status | grep \\\"status\\\":\\\"UP\\\""]
+          initialDelaySeconds: 30
+          periodSeconds: 5
+        volumeMounts:
+        - mountPath: /opt/sonarqube-7.4/data
+          name: sq-data
+      volumes:
+      - name: sq-data
+        emptyDir:
+          medium: "Memory"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: sonarqube-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: sonarqube
+  ports:
+  - protocol: TCP
+    port: 9000
