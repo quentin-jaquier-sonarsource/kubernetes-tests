@@ -115,3 +115,27 @@ kubectl create -f ./jobs
 ```
 
 See the parallel jobs section for further details.
+
+## Simple temp SonarQube
+
+Kubernetes config: 1 node, 32 vcpu, 120 g
+
+Get credentials
+```
+gcloud container clusters get-credentials [Cluster name] --zone=[Zone]
+```
+
+Create instance
+```
+kubectl create -f tmp-sonarqube.yaml
+```
+
+Get IP (sonarqube-service->EXTERNAL-IP)
+```
+kubectl get services
+```
+
+Get SonarQube logs
+```
+kubectl logs sonarqube
+```

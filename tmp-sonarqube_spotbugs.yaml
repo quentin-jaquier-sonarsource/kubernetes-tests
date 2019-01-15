@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sonarqube
+  labels:
+    app: sonarqube
+spec:
+  containers:
+  - name: sonarqube
+    image: openjdk:8
+    securityContext:
+      privileged: true
+      capabilities:
+        add:
+          - SYS_RESOURCE
+    ports:
+    - containerPort: 9000
+    command: ["sh", "-c"]
+    args:
+    - "ulimit -c unlimited &&
+
+       curl -s -L https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.4.zip -o /sonarqube.zip &&
+       unzip /sonarqube.zip -d /opt &&
+                  
+       curl -s -L https://github.com/quentin-jaquier-sonarsource/slang/releases/download/NPE2/sonar-sjava-plugin-1.3-SNAPSHOT.jar -o /opt/sonarqube-7.4/extensions/plugins/sonar-java-plugin-5.8.0.15699.jar &&
+       curl -s -L https://github.com/spotbugs/sonar-findbugs/releases/download/3.9.1/sonar-findbugs-plugin-3.9.1.jar -o /opt/sonarqube-7.4/extensions/plugins/sonar-findbugs-plugin-3.9.1.jar &&
+
+
+       groupadd -r sonarqube &&
+       useradd -r -g sonarqube sonarqube &&
+       chown -R sonarqube:sonarqube /opt/sonarqube-7.4 &&
+
+       echo \"sonar.jdbc.maxActive=1000\" >> /opt/sonarqube-7.4/conf/sonar.properties &&
+       echo \"sonar.jdbc.maxIdle=-1\" >> /opt/sonarqube-7.4/conf/sonar.properties &&
+       echo \"sonar.jdbc.minIdle=500\" >> /opt/sonarqube-7.4/conf/sonar.properties &&
+       echo \"sonar.web.http.maxThreads=1000\" >> /opt/sonarqube-7.4/conf/sonar.properties &&
+       echo \"sonar.web.http.minThreads=500\" >> /opt/sonarqube-7.4/conf/sonar.properties &&
+       echo \"sonar.web.http.acceptCount=1000\" >> /opt/sonarqube-7.4/conf/sonar.properties &&
+
+       echo \"sonar.web.javaOpts=-Xms10240m -Xmx10240m -XX:+HeapDumpOnOutOfMemoryError -Djava.security.egd=file:/dev/./urandom\" >> /opt/sonarqube-7.4/conf/sonar.properties &&
+       echo \"sonar.ce.javaOpts=-Xms10240m -Xmx10240m -XX:+HeapDumpOnOutOfMemoryError\" >> /opt/sonarqube-7.4/conf/sonar.properties &&
+       echo \"sonar.search.javaOpts=-Xms20480m -Xmx20480m -XX:+HeapDumpOnOutOfMemoryError\" >> /opt/sonarqube-7.4/conf/sonar.properties &&
+
+       su -c \"/opt/sonarqube-7.4/bin/linux-x86-64/sonar.sh console\" sonarqube
+      "
+    resources:
+      requests:
+        cpu: 20.0
+        memory: "100G"
+    readinessProbe:
+      exec:
+        command: ["sh", "-c", "curl -s http://localhost:9000/api/system/status | grep \\\"status\\\":\\\"UP\\\""]
+      initialDelaySeconds: 30
+      periodSeconds: 5
+    volumeMounts:
+    - mountPath: /opt/sonarqube-7.4/data
+      name: sq-data
+    - mountPath: /opt/sonarqube-7.4/temp
+      name: sq-temp
+  volumes:
+  - name: sq-data
+    emptyDir:
+      medium: "Memory"
+  - name: sq-temp
+    emptyDir:
+      medium: "Memory"
+  restartPolicy: Never
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: sonarqube-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: sonarqube
+  ports:
+  - protocol: TCP
+    port: 9000
